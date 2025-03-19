@@ -1,8 +1,6 @@
 package FarmazonTicketModal;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -44,6 +42,12 @@ public class FarmazonTicketModal {
     static WebElement UTSBildirimibutton;
     static WebElement UTSBildirinot;
     static String originalWindow;
+    static  WebElement Eksikuruntalep;
+    static  WebElement Farkliuruntalep;
+    static  WebElement Hasarliuruntalep;
+    static  WebElement Ayipliuruntalep;
+    static  WebElement Miadiyanlisuruntalep;
+    static  WebElement Fazlauruntalep;
 
 
 
@@ -60,6 +64,7 @@ public class FarmazonTicketModal {
 
     @BeforeClass
     public static void setUp() throws InterruptedException {
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");
@@ -68,7 +73,6 @@ public class FarmazonTicketModal {
         softAssert = new SoftAssert();
         cdriver.manage().window().maximize();
         cdriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
         cdriver.get("https://staging.react.farmazon.com.tr/myprofile/orderdetail/buy/62011");
 
         // WebElement'in yüklenmesini bekle
@@ -104,7 +108,6 @@ public class FarmazonTicketModal {
 
         originalWindow = cdriver.getWindowHandle();
 
-// Açılan tüm pencereleri al
         for (String windowHandle : cdriver.getWindowHandles()) {
             if (!windowHandle.equals(originalWindow)) {
                 cdriver.switchTo().window(windowHandle);
@@ -112,7 +115,6 @@ public class FarmazonTicketModal {
             }
         }
 
-// İlk pencereye geri dön
         cdriver.switchTo().window(originalWindow);
 
         Eksikurunbutton = cdriver.findElement(By.xpath("//button[text()='Eksik Ürün']"));
@@ -122,6 +124,11 @@ public class FarmazonTicketModal {
         Select dropdown = new Select(cdriver.findElement(By.xpath("//select[@name='155218']")));
         dropdown.selectByVisibleText("1");
         Thread.sleep(milis);
+
+        Eksikuruntalep = cdriver.findElement(By.xpath("//button[contains(text(),'Eksik Ürünlerin Tamamlanması')]"));
+        Eksikuruntalep.click();
+        Thread.sleep(milis);
+
 
         sorunbildirticketbutton = cdriver.findElement(By.xpath("//span[text()='Sorun Bildir']"));
         sorunbildirticketbutton.click();
@@ -143,7 +150,6 @@ public class FarmazonTicketModal {
 
         originalWindow = cdriver.getWindowHandle();
 
-// Açılan tüm pencereleri al
         for (String windowHandle : cdriver.getWindowHandles()) {
             if (!windowHandle.equals(originalWindow)) {
                 cdriver.switchTo().window(windowHandle);
@@ -151,7 +157,6 @@ public class FarmazonTicketModal {
             }
         }
 
-// İlk pencereye geri dön
         cdriver.switchTo().window(originalWindow);
         Farkliurunbutton = cdriver.findElement(By.xpath("//button[contains(text(),'Farklı Ürün')]"));
         Farkliurunbutton.click();
@@ -161,6 +166,11 @@ public class FarmazonTicketModal {
         Select dropdown = new Select(cdriver.findElement(By.xpath("//select[@name='155218']")));
         dropdown.selectByVisibleText("1");
         Thread.sleep(milis);
+
+        Farkliuruntalep = cdriver.findElement(By.xpath("//button[contains(text(),'Değişim')]"));
+        Farkliuruntalep.click();
+        Thread.sleep(milis);
+
 
         uploadButton = cdriver.findElement(By.id("upload-button"));
         uploadButton.sendKeys(expectedFilePath);
@@ -186,7 +196,6 @@ public class FarmazonTicketModal {
 
         originalWindow = cdriver.getWindowHandle();
 
-// Açılan tüm pencereleri al
         for (String windowHandle : cdriver.getWindowHandles()) {
             if (!windowHandle.equals(originalWindow)) {
                 cdriver.switchTo().window(windowHandle);
@@ -194,7 +203,6 @@ public class FarmazonTicketModal {
             }
         }
 
-// İlk pencereye geri dön
         cdriver.switchTo().window(originalWindow);
 
         Hasarliurunbutton = cdriver.findElement(By.xpath("//button[contains(text(),'Hasarlı Ürün')]"));
@@ -203,6 +211,10 @@ public class FarmazonTicketModal {
 
         Select dropdown = new Select(cdriver.findElement(By.xpath("//select[@name='155218']")));
         dropdown.selectByVisibleText("1");
+        Thread.sleep(milis);
+
+        Hasarliuruntalep = cdriver.findElement(By.xpath("//button[contains(text(),'Değişim')]"));
+        Hasarliuruntalep.click();
         Thread.sleep(milis);
 
         uploadButton = cdriver.findElement(By.id("upload-button"));
@@ -267,6 +279,10 @@ public class FarmazonTicketModal {
         dropdown.selectByVisibleText("1");
         Thread.sleep(milis);
 
+        Miadiyanlisuruntalep = cdriver.findElement(By.xpath("//button[contains(text(),'Değişim')]"));
+        Miadiyanlisuruntalep.click();
+        Thread.sleep(milis);
+
         uploadButton = cdriver.findElement(By.id("upload-button"));
         uploadButton.sendKeys(expectedFilePath);
         Thread.sleep(milis);
@@ -309,6 +325,9 @@ public class FarmazonTicketModal {
         fazlaurunbutton.click();
         Thread.sleep(milis);
 
+        Fazlauruntalep = cdriver.findElement(By.xpath("//button[contains(text(),'Fazla Ürünleri Satın Alınması')]"));
+        Fazlauruntalep.click();
+        Thread.sleep(milis);
 
         fazlaurunnot = cdriver.findElement(By.xpath("//input[@placeholder='Not yazınız']"));
         fazlaurunnot.sendKeys(testnot);
@@ -326,7 +345,6 @@ public class FarmazonTicketModal {
     }
     @Test
     public void test06() throws InterruptedException { // Ayıplı Ürün
-
 
         sorunbildirbutton = cdriver.findElement(By.xpath("//button[text()='Sorun Bildir']"));
         sorunbildirbutton.click();
@@ -355,6 +373,11 @@ public class FarmazonTicketModal {
         Select dropdown = new Select(cdriver.findElement(By.xpath("//select[@name='155218']")));
         dropdown.selectByVisibleText("1");
         Thread.sleep(milis);
+
+        Ayipliuruntalep = cdriver.findElement(By.xpath("//button[contains(text(),'Değişim')]"));
+        Ayipliuruntalep.click();
+        Thread.sleep(milis);
+
 
         uploadButton = cdriver.findElement(By.id("upload-button"));
         uploadButton.sendKeys(expectedFilePath);
